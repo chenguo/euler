@@ -5,7 +5,7 @@ def largest_prime_factor (num, start):
   i = start
   while i < num:
     if (num % i) == 0:
-      largest = max (largest, largest_prime_factor(num / i, i + 1))
+      largest = max (largest, largest_prime_factor(num / i, i))
       break
     i += 1
 
