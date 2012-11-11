@@ -1,4 +1,6 @@
 #! /usr/bin/env python
+# Project Euler problem 1: Add all the natural numbers below one thousand that
+# are multiples of 3 or 5.
 
 # Find sum of all multiples of N in MAX
 def mult_sum (n, max):

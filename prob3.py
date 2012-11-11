@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# Project Euler problem 3: Find the largest prime factor of a composite number.
 
 def largest_prime_factor (num, start):
   largest = 0;
