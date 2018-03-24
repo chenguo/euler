@@ -3,16 +3,28 @@
 # whose values do not exceed four million, find the sum of the even-valued
 # terms.
 
-def fib_sum (limit):
-  total = 0
-  val = 2
-  prev = 1
-  while val < limit:
-    if (val & 1) == 0:
-      total += val
-    tmp = val
-    val += prev
-    prev = tmp
-  return total
+from itertools import takewhile
 
-print fib_sum(4000000)
+def fibonacci():
+  a = 0
+  b = 1
+  while(True):
+    fib = a + b
+    yield fib
+    a = b
+    b = fib
+
+def is_even(x):
+  return x % 2 == 0
+
+def even_fib():
+  return filter(is_even, fibonacci())
+
+def even_fib_sum(limit):
+  limited_even_fibs = takewhile(lambda x: x < limit, even_fib())
+  return sum(limited_even_fibs)
+
+
+if __name__ == "__main__":
+  limit = 4000000
+  print(even_fib_sum(limit))
