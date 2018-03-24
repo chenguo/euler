@@ -1,19 +1,21 @@
 #! /usr/bin/env python
 # Project Euler problem 3: Find the largest prime factor of a composite number.
 
-def largest_prime_factor (num, start):
+# Repeatedly divide by increasing divisors. Since
+# we're starting with the smallest numbers, every
+# new valid factor we find should be a prime
+def largest_prime_factor(num, start=2):
   largest = 0;
-  i = start
-  while i < num:
-    if (num % i) == 0:
-      largest = max (largest, largest_prime_factor(num / i, i))
-      break
-    i += 1
-
-  if largest == 0:
-    return num
-  else:
-    return largest
+  factor = start
+  while factor < num:
+    if (num % factor) == 0:
+      largest = factor
+      num = int(num/factor)
+    else:
+      factor += 1
+  return max(largest, num)
 
 
-print largest_prime_factor (600851475143, 2)
+if __name__ == "__main__":
+  n = 600851475143
+  print(largest_prime_factor(n))
