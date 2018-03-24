@@ -2,14 +2,34 @@
 # Project Euler problem 1: Add all the natural numbers below one thousand that
 # are multiples of 3 or 5.
 
-# Find sum of all multiples of N in MAX
-def mult_sum (n, max):
-  n_mults = (max-1) / n
-  multiplier = n_mults * (1 + n_mults) / 2
-  sum = n * multiplier
-  return sum
+from utils import take_limit
 
-sum3 = mult_sum(3, 1000)
-sum5 = mult_sum(5, 1000)
-sum15 = mult_sum(15, 1000)
-print sum3 + sum5 - sum15
+def inf_range():
+  n = 0
+  while True:
+    yield n
+    n += 1
+
+def is_factor(n, f):
+  return n % f == 0
+
+def contains_factor(n, factors):
+  for f in factors:
+    if is_factor(n, f):
+      return True
+  return False
+
+def gen_multiples(factors):
+  for n in inf_range():
+    if contains_factor(n, factors):
+      yield n
+
+def fizz_buzz_sum(factors, limit):
+  nums = gen_multiples(factors)
+  return sum(take_limit(nums, limit))
+
+if __name__ == "__main__":
+  limit = 1000
+  factors = [3, 5]
+  result = fizz_buzz_sum(factors, limit)
+  print(result)

@@ -3,7 +3,7 @@
 # whose values do not exceed four million, find the sum of the even-valued
 # terms.
 
-from itertools import takewhile
+from utils import take_limit
 
 def fibonacci():
   a = 0
@@ -21,8 +21,7 @@ def even_fib():
   return filter(is_even, fibonacci())
 
 def even_fib_sum(limit):
-  limited_even_fibs = takewhile(lambda x: x < limit, even_fib())
-  return sum(limited_even_fibs)
+  return sum(take_limit(even_fib(), limit)
 
 
 if __name__ == "__main__":
