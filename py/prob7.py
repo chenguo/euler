@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# Project Euler problem 6:
+# Project Euler problem 7:
 # what is the 10,001st prime number?
 
 from itertools import islice
