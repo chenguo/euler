@@ -3,18 +3,9 @@
 # what is the 10,001st prime number?
 
 from itertools import islice
-from prob1 import contains_factor
-
-def gen_primes():
-    primes = []
-    i = 2
-    while True:
-        if not contains_factor(i, primes):
-            yield i
-            primes.append(i)
-        i += 1
+from seqs import gen_primes
 
 if __name__ == "__main__":
-    n = 100
+    n = 10001
     top_n_primes = list(islice(gen_primes(), n))
     print(top_n_primes[n-1])

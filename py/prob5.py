@@ -2,7 +2,7 @@
 # Project Euler problem 5: find smallest positive number that is evenly
 # divisible by all numbers from 1-20
 
-from prob3 import find_prime_factors
+from utils import find_prime_factors
 
 def factors_for_nums(nums):
     for n in nums:
