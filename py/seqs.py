@@ -87,10 +87,13 @@ def _realloc_sieve(sieve, limit):
       prime_num = i + 1
       multiple = limit - (limit % prime_num)
       multiple_idx = multiple + prime_num - 1
+      # In the newly allocated region, sieve multiples of primes
+      # found thus far
       _mark_sieve_nonprime(sieve, multiple_idx, prime_num, new_limit)
   return (sieve, new_limit)
 
-# Odd numbers only version of dynamic sieve.
+# Odd numbers only version of dynamic sieve. The
+# indexing gets a bit crazy.
 # Cuts run time roughly in half, about expected
 # I guess.
 # 2e5 limit: 0.11s
@@ -112,16 +115,37 @@ def gen_primes():
     n_processed = limit
     limit = new_limit
 
+def _next_multiple_within_limit_odd(idx, prime_num, limit):
+  # Find the last multiple of prime_num just before limit,
+  # while accounting for the num = 2*idx + 1 math.
+  #
+  # In words (which may be more confusing than the math),
+  # remove the idx offset from limit, mod by the
+  # prime number (which now represents a step of 2x prime_num,
+  # since every other multiple of an odd number is even
+  # and thus never even considered), and then re-add
+  # the idx offset
+  #
+  # There are corner cases where we end up at the original
+  # idx offset, which represents a prime number. In this
+  # case we bump to the next represented multiple
+  # by adding the step size of prime_num
+  tmp_lim = limit - idx
+  multiple = tmp_lim - (tmp_lim % prime_num) + idx
+  if multiple == idx:
+    multiple += prime_num
+  return multiple
+
 def _realloc_sieve_odd(sieve, limit):
   sieve.extend([True] * limit)
   new_limit = 2 * limit
-  #print("realloc to", new_limit)
   for i in range(1, limit):
     if sieve[i]:
       prime_num = i*2 + 1
-      tmp_lim = limit - i
-      multiple = tmp_lim - (tmp_lim % prime_num) + i
-      if multiple == i:
-        multiple += prime_num
-      _mark_sieve_nonprime(sieve, multiple, prime_num, new_limit)
+      next_multiple = _next_multiple_within_limit_odd(i, prime_num, limit)
+      # In the newly allocated region, sieve multiples of primes
+      # found thus far. Note while num = i*2 + 1, the step size is still
+      # prime_num. This is because every other multiple of an odd number
+      # is even and thus not represented
+      _mark_sieve_nonprime(sieve, next_multiple, prime_num, new_limit)
   return (sieve, new_limit)
