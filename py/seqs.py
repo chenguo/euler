@@ -69,8 +69,9 @@ def gen_primes_v3():
         yield prime_num
         multiple_idx = i + prime_num
         _mark_sieve_nonprime(sieve, multiple_idx, prime_num, limit)
+    (sieve, new_limit) = _realloc_sieve(sieve, limit)
     n_processed = limit
-    (sieve, limit) = _realloc_sieve(sieve, limit)
+    limit = new_limit
 
 def _mark_sieve_nonprime(sieve, start_idx, increment, limit):
   idx = start_idx
@@ -107,8 +108,9 @@ def gen_primes():
         yield prime_num
         multiple_idx = i + prime_num
         _mark_sieve_nonprime(sieve, multiple_idx, prime_num, limit)
+    (sieve, new_limit) = _realloc_sieve_odd(sieve, limit)
     n_processed = limit
-    (sieve, limit) = _realloc_sieve_odd(sieve, limit)
+    limit = new_limit
 
 def _realloc_sieve_odd(sieve, limit):
   sieve.extend([True] * limit)
